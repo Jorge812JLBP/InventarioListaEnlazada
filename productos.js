@@ -7,6 +7,7 @@ function capturar()
         this.cantidad=cantidad;
         this.precio=precio;
         this.siguiente=null;
+        this.anterior=null;
     }
     var idCapturar = document.getElementById("idt").value;
     var nombreCapturar = document.getElementById("nombret").value;
@@ -25,23 +26,40 @@ function capturar()
 
 
 
-
+this.anterior=null;
 this.inicio=null;
 function agregar()
 {
-    
-   if (this.inicio==null)
+    if(this.inicio==null)
+    {
         this.inicio=nuevoProducto;
-      else
-      {
+       
+    }
+    else if(inicio.id>nuevoProducto.id)
+    {
+        inicio.anterior=nuevoProducto;
+        nuevoProducto.siguiente=inicio;
+        inicio=nuevoProducto;
+    }
+    else
+    {
         let t=this.inicio
-        while(t.siguiente!=null)
+        if(t.id>nuevoProducto.id)
         {
-          t=t.siguiente; 
-        }                
-        t.siguiente=nuevoProducto;
-      }
+            nuevoProducto.siguiente=t;
+            nuevoProducto.anterior=t.anterior;
+            t.anterior.siguiente=nuevoProducto;
+            t.anterior=nuevoProducto;
+        }
+        else
+        {
+            t.siguiente=nuevoProducto;
+            nuevoProducto.anterior=t;
+        }
+    }
+   v
    document.getElementById("tabla").innerHTML+= "<tbody><td>"+nuevoProducto.id+"</td><td>"+nuevoProducto.nombre+"</td><td>"+nuevoProducto.cantidad+"</td><td>"+nuevoProducto.precio+"</td></tbody>";
+ 
 }
 
 
@@ -64,6 +82,8 @@ function eliminar(eliminarID)
 {
     if(this.inicio!=null)
     {
+        
+        
         if(this.inicio.id==eliminarID)
         {
             this.inicio=this.inicio.siguiente;
@@ -85,6 +105,7 @@ function eliminar(eliminarID)
             }
             return document.getElementById("tabla").innerHTML= "<h1>" + "Se elimino" + "</h1>"
         }
+        
     }
    
 }
